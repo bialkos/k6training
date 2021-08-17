@@ -3,6 +3,12 @@
 pool:
   vmImage: 'ubuntu-18.04'
 
+parameters:
+  - name: options
+    values:
+      - stressOptions
+      - smokeOptions
+
 steps:
   - script: |
       docker pull loadimpact/k6
@@ -11,5 +17,5 @@ steps:
       docker run -i \
         -v `pwd`:/src \
         loadimpact/k6 \
-        run /src/003_basic_test/http_get.js \
+        run -e options=${{ parameters.options }} /src/012_azure_pipelines/http_get.js \
     displayName: Run k6 cloud
